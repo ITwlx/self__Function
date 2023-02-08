@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>count: <span>0</span></div>
+    <button class="ok">点我加1</button>
+    <button class="no">取消</button>
+    <script>
+        const num = document.querySelector('span')
+        const btn = document.querySelector('.ok')
+        const cancel = document.querySelector('.no')
+        // btn.addEventListener('click',debounce(func,500))
+
+        let doSome = debounce(func, 3000, false)
+        btn.onclick = doSome
+        function func(e) {
+            num.innerHTML = num.innerHTML * 1 + 1
+        }
+        cancel.onclick = doSome.cancel
+        
+        function debounce(func, await, immediate) {
+            var timeout, result
+            let debounce1 = function () {
+                let args = arguments
+                clearTimeout(timeout);
+                if (immediate) {
+                    let callNow = !timeout
+                    timeout = setTimeout(() => {
+                        timeout = null
+                    }, await)
+                    // 立即执行
+                    if (callNow) result = func.call(this, args)
+                } else {
+                    timeout = setTimeout(() => {
+                        func.call(this, args)
+                    }, await)
+                }
+                console.log(result);
+                return result
+            }
+            debounce1.cancel = function () {
+                clearTimeout(timeout)
+                timeout = null
+            }
+            return debounce1
+        }
+    </script>
+</body>
+
+</html>
